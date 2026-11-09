@@ -29,8 +29,10 @@ Vorssaint has no URL scheme, AppleScript dictionary or CLI, so the plugin uses t
 git clone https://github.com/ChrsCrss/opendeck-vorssaint.git
 cd opendeck-vorssaint/de.chrscrss.vorssaint-keepawake.sdPlugin
 npm install --omit=dev
-ln -s "$PWD" ~/Library/Application\ Support/opendeck/plugins/
+cp -R "$PWD" ~/Library/Application\ Support/opendeck/plugins/
 ```
+
+Copy the folder instead of symlinking it: unless Developer mode is enabled in OpenDeck, its file server refuses files outside the plugins folder, so a symlinked plugin shows question-mark icons.
 
 Restart OpenDeck, then drag **Keep Awake** from the **Vorssaint** category onto a key.
 
