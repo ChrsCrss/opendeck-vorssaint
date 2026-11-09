@@ -4,8 +4,8 @@ An [OpenDeck](https://github.com/nekename/OpenDeck) / Stream Deck plugin that to
 
 | State | Key |
 | --- | --- |
-| Keep Awake off | dark key, "SLEEP OK" |
-| Keep Awake on | orange steaming cup, "AWAKE" |
+| Keep Awake off | dark key, dimmed Vorssaint logo |
+| Keep Awake on | orange key, white Vorssaint logo |
 
 macOS only.
 
@@ -59,7 +59,7 @@ de.chrscrss.vorssaint-keepawake.sdPlugin/
 ├── manifest.json            action, states, icons
 ├── bin/plugin.js            plugin logic (Node, uses ws)
 ├── propertyInspector/       shortcut settings UI
-├── imgs/                    on/off icons (SVG + PNG)
+├── imgs/                    plugin, category and on/off icons (SVG + PNG)
 └── package.json             dependency: ws
 ```
 
@@ -68,3 +68,5 @@ de.chrscrss.vorssaint-keepawake.sdPlugin/
 Early version. The state detection is tested against a simulated OpenDeck server; the shortcut toggle and the property inspector have only been tried by hand.
 
 This is an unofficial plugin and is not affiliated with Vorssaint or OpenDeck.
+
+The Vorssaint logo used in the icons is © Vorssaint and reserved brand material under the [Vorssaint trademark notice](https://github.com/vorssaint/vorssaint-utils/blob/main/TRADEMARKS.md). It is not covered by this repository's license and is only used to identify the app this plugin controls.
