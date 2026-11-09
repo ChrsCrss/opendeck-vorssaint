@@ -1,0 +1,28 @@
+{
+	"Name": "Vorssaint Keep Awake",
+	"Version": "0.1.0",
+	"Author": "ChrsCrss",
+	"Description": "Toggle Vorssaint's Keep Awake mode and show whether it is on.",
+	"Category": "Vorssaint",
+	"CategoryIcon": "imgs/category",
+	"Icon": "imgs/plugin",
+	"CodePath": "bin/plugin.js",
+	"SDKVersion": 2,
+	"Software": { "MinimumVersion": "6.4" },
+	"OS": [{ "Platform": "mac", "MinimumVersion": "12" }],
+	"Actions": [
+		{
+			"Name": "Keep Awake",
+			"UUID": "de.chrscrss.vorssaint-keepawake.toggle",
+			"Icon": "imgs/plugin",
+			"Tooltip": "Toggle Vorssaint Keep Awake. Shows the current state.",
+			"Controllers": ["Keypad"],
+			"SupportedInMultiActions": false,
+			"PropertyInspectorPath": "propertyInspector/index.html",
+			"States": [
+				{ "Image": "imgs/off", "ShowTitle": false },
+				{ "Image": "imgs/on", "ShowTitle": false }
+			]
+		}
+	]
+}

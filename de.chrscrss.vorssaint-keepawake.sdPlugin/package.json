@@ -1,0 +1,7 @@
+{
+	"name": "de.chrscrss.vorssaint-keepawake",
+	"version": "0.1.0",
+	"private": true,
+	"description": "OpenDeck plugin to toggle Vorssaint's Keep Awake mode",
+	"dependencies": { "ws": "8.18.0" }
+}

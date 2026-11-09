@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Vorssaint Keep Awake</title>
+	<style>
+		body { font: 13px -apple-system, Helvetica, Arial, sans-serif; background: #2d2d2d; color: #d8d8d8; margin: 12px; }
+		label { display: inline-flex; align-items: center; gap: 4px; margin-right: 12px; }
+		input[type="text"] { width: 40px; text-align: center; text-transform: uppercase; }
+		p { color: #999; font-size: 12px; line-height: 1.4; }
+		.row { margin: 10px 0; }
+	</style>
+</head>
+<body>
+	<div class="row"><strong>Vorssaint Keep Awake shortcut</strong></div>
+	<div class="row">
+		<label><input type="checkbox" id="control" /> ⌃</label>
+		<label><input type="checkbox" id="option" /> ⌥</label>
+		<label><input type="checkbox" id="command" /> ⌘</label>
+		<label><input type="checkbox" id="shift" /> ⇧</label>
+		<label>Key <input type="text" id="key" maxlength="1" /></label>
+	</div>
+	<p>Must match the shortcut set in Vorssaint (default ⌃⌥⌘K). OpenDeck needs Accessibility permission to send it.</p>
+	<script>
+		const defaults = { key: "K", control: true, option: true, command: true, shift: false };
+		let ws, uuid, settings = { ...defaults };
+		function render() {
+			for (const id of ["control", "option", "command", "shift"]) document.getElementById(id).checked = !!settings[id];
+			document.getElementById("key").value = settings.key || "";
+		}
+		function save() {
+			for (const id of ["control", "option", "command", "shift"]) settings[id] = document.getElementById(id).checked;
+			settings.key = document.getElementById("key").value.toUpperCase();
+			ws.send(JSON.stringify({ event: "setGlobalSettings", context: uuid, payload: settings }));
+		}
+		function connectElgatoStreamDeckSocket(port, inUUID, registerEvent) {
+			uuid = inUUID;
+			ws = new WebSocket("ws://127.0.0.1:" + port);
+			ws.onopen = () => {
+				ws.send(JSON.stringify({ event: registerEvent, uuid }));
+				ws.send(JSON.stringify({ event: "getGlobalSettings", context: uuid }));
+			};
+			ws.onmessage = (e) => {
+				const msg = JSON.parse(e.data);
+				if (msg.event === "didReceiveGlobalSettings") {
+					settings = { ...defaults, ...(msg.payload && msg.payload.settings) };
+					render();
+				}
+			};
+		}
+		document.querySelectorAll("input").forEach((el) => el.addEventListener("input", save));
+		render();
+	</script>
+</body>
+</html>
