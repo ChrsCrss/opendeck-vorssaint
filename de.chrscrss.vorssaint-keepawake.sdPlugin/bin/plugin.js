@@ -8,7 +8,13 @@ const WebSocket = require("ws");
 
 const ASSERTION = "Vorssaint: keep the Mac awake";
 const POLL_MS = 2000;
-const DEFAULT_SETTINGS = { key: "K", control: true, option: true, command: true, shift: false };
+const DEFAULT_SETTINGS = { key: "K", control: true, option: true, command: true, shift: false, symbol: "saturn" };
+
+// Key images per symbol: [off, on]. Paths are relative to the plugin folder.
+const SYMBOLS = {
+	saturn: ["imgs/off", "imgs/on"],
+	coffee: ["imgs/coffee-off", "imgs/coffee-on"],
+};
 
 // ANSI virtual key codes (layout independent, same as Vorssaint's kVK_ANSI_*).
 const KEY_CODES = {
@@ -54,9 +60,15 @@ async function isKeepAwakeActive() {
 	return stdout.includes(ASSERTION);
 }
 
+function applySymbol(context) {
+	const images = SYMBOLS[settings.symbol] || SYMBOLS.saturn;
+	images.forEach((image, state) => send({ event: "setImage", context, payload: { image, state } }));
+}
+
 function applyState(state, force = false) {
 	if (!force && state === lastState) return;
 	lastState = state;
+	console.log(`state -> ${state} (${contexts.size} key(s))`);
 	for (const context of contexts) send({ event: "setState", context, payload: { state } });
 }
 
@@ -126,7 +138,9 @@ ws.on("message", async (raw) => {
 	}
 	switch (msg.event) {
 		case "willAppear":
+			console.log("willAppear", msg.context);
 			contexts.add(msg.context);
+			applySymbol(msg.context);
 			startPolling();
 			await refresh(true);
 			break;
@@ -139,6 +153,7 @@ ws.on("message", async (raw) => {
 			break;
 		case "didReceiveGlobalSettings":
 			settings = { ...DEFAULT_SETTINGS, ...(msg.payload && msg.payload.settings) };
+			for (const context of contexts) applySymbol(context);
 			break;
 	}
 });

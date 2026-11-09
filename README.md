@@ -38,7 +38,7 @@ Restart OpenDeck, then drag **Keep Awake** from the **Vorssaint** category onto 
 
 ## Configure
 
-Select the key in OpenDeck. The property inspector lets you set the modifiers and the key of the shortcut. It must match the Keep Awake shortcut in Vorssaint (default ⌃⌥⌘K). The setting is stored globally, so every Keep Awake key uses it.
+Select the key in OpenDeck. The property inspector lets you set the modifiers and the key of the shortcut. It must match the Keep Awake shortcut in Vorssaint (default ⌃⌥⌘K). It also offers an **Icon** choice: the Vorssaint logo (default) or a coffee cup. The settings are stored globally, so every Keep Awake key uses them.
 
 ## Limitations
 
@@ -59,7 +59,7 @@ de.chrscrss.vorssaint-keepawake.sdPlugin/
 ├── manifest.json            action, states, icons
 ├── bin/plugin.js            plugin logic (Node, uses ws)
 ├── propertyInspector/       shortcut settings UI
-├── imgs/                    plugin, category and on/off icons (SVG + PNG)
+├── imgs/                    plugin, category, logo and coffee-cup on/off icons (SVG + PNG)
 └── package.json             dependency: ws
 ```
 

@@ -20,17 +20,27 @@
 		<label><input type="checkbox" id="shift" /> ⇧</label>
 		<label>Key <input type="text" id="key" maxlength="1" /></label>
 	</div>
+	<div class="row">
+		<label>Icon
+			<select id="symbol">
+				<option value="saturn">Vorssaint logo</option>
+				<option value="coffee">Coffee cup</option>
+			</select>
+		</label>
+	</div>
 	<p>Must match the shortcut set in Vorssaint (default ⌃⌥⌘K). OpenDeck needs Accessibility permission to send it.</p>
 	<script>
-		const defaults = { key: "K", control: true, option: true, command: true, shift: false };
+		const defaults = { key: "K", control: true, option: true, command: true, shift: false, symbol: "saturn" };
 		let ws, uuid, settings = { ...defaults };
 		function render() {
 			for (const id of ["control", "option", "command", "shift"]) document.getElementById(id).checked = !!settings[id];
 			document.getElementById("key").value = settings.key || "";
+			document.getElementById("symbol").value = settings.symbol || "saturn";
 		}
 		function save() {
 			for (const id of ["control", "option", "command", "shift"]) settings[id] = document.getElementById(id).checked;
 			settings.key = document.getElementById("key").value.toUpperCase();
+			settings.symbol = document.getElementById("symbol").value;
 			ws.send(JSON.stringify({ event: "setGlobalSettings", context: uuid, payload: settings }));
 		}
 		function connectElgatoStreamDeckSocket(port, inUUID, registerEvent) {
@@ -48,7 +58,7 @@
 				}
 			};
 		}
-		document.querySelectorAll("input").forEach((el) => el.addEventListener("input", save));
+		document.querySelectorAll("input, select").forEach((el) => el.addEventListener("input", save));
 		render();
 	</script>
 </body>
